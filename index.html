@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A TUM — Plataforma Tecnológica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --dark:#1e1c1a;
+  --dark2:#181614;
+  --dark3:#141210;
+  --orange:#C85C2A;
+  --orange-light:#D9723F;
+  --orange-soft:rgba(200,92,42,.10);
+  --orange-border:rgba(200,92,42,.25);
+  --orange-glow:rgba(200,92,42,.18);
+  --h1:#FAF7F4;
+  --body:#CCCCCC;
+  --muted:rgba(255,255,255,.38);
+  --font-h:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-b:'Inter',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-b);
+  background:var(--dark2);
+  color:var(--body);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── TICKER ── */
+.ticker{
+  background:#0e0c0a;
+  border-bottom:1px solid rgba(200,92,42,.2);
+  height:34px;display:flex;align-items:center;overflow:hidden;
+  position:sticky;top:0;z-index:110;
+}
+.ticker::before,.ticker::after{
+  content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none;
+}
+.ticker::before{left:0;background:linear-gradient(to right,#0e0c0a,transparent)}
+.ticker::after{right:0;background:linear-gradient(to left,#0e0c0a,transparent)}
+.ticker-track{
+  display:flex;align-items:center;
+  white-space:nowrap;width:max-content;
+  animation:ticker 30s linear infinite;
+}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tick{display:inline-flex;align-items:center;gap:7px;padding:0 22px}
+.tick-k{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.tick-v{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tick-dot{width:3px;height:3px;border-radius:50%;background:var(--orange);opacity:.4}
+
+/* ── NAV ── */
+.nav-wrap{
+  display:flex;justify-content:center;
+  padding:14px 24px 10px;
+  position:fixed;top:34px;left:0;right:0;z-index:100;
+  background:transparent;
+  pointer-events:none;
+}
+nav{
+  pointer-events:all;
+  background:rgba(12,10,8,.88);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border:1px solid var(--orange-border);
+  border-radius:100px;
+  padding:8px 8px 8px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  box-shadow:0 8px 48px rgba(0,0,0,.75),0 0 0 1px rgba(200,92,42,.04),inset 0 1px 0 rgba(255,255,255,.04);
+  transition:box-shadow .3s,border-color .3s;
+  max-width:fit-content;width:auto;
+}
+nav:hover{
+  box-shadow:0 10px 60px rgba(0,0,0,.85),0 0 40px rgba(200,92,42,.08),0 0 0 1px rgba(200,92,42,.12);
+  border-color:rgba(200,92,42,.35);
+}
+.nav-logo{
+  font-family:var(--font-h);font-size:16px;font-weight:800;
+  color:var(--h1);letter-spacing:-.03em;text-decoration:none;white-space:nowrap;
+  display:flex;align-items:center;gap:3px;
+  position:relative;
+}
+.nav-logo .logo-a{font-size:20px;font-weight:800;color:var(--h1);line-height:1;display:flex;align-items:center}
+.nav-logo .logo-tum{font-size:13px;font-weight:700;color:var(--orange);letter-spacing:.06em;display:flex;align-items:center}
+.nav-logo::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;
+  background:linear-gradient(to right, var(--orange), transparent);
+  opacity:0;transition:opacity .3s;transform:none;
+}
+.nav-logo:hover::after{opacity:.5}
+.nav-links{display:none}
+.nav-cta{
+  background:var(--orange);color:#fff;
+  font-family:var(--font-h);font-size:11px;font-weight:700;
+  padding:10px 20px;border-radius:100px;text-decoration:none;
+  white-space:nowrap;display:flex;align-items:center;gap:7px;
+  letter-spacing:.01em;
+  animation:pulse 3s 1.5s infinite;
+  transition:transform .2s,background .2s,box-shadow .2s;
+  box-shadow:0 2px 12px rgba(200,92,42,.25);
+}
+.nav-cta:hover{transform:scale(1.04);background:var(--orange-light);box-shadow:0 4px 20px rgba(200,92,42,.4)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,92,42,.5)}60%{box-shadow:0 0 0 14px rgba(200,92,42,0)}}
+
+/* ── HERO ── */
+#hero{
+  position:relative;
+  min-height:0;
+  padding-top:62px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse 130% 90% at 60% 28%, rgba(26,14,6,1) 0%, rgba(10,8,6,1) 55%, rgba(5,4,3,1) 100%);
+}
+
+/* Dense grid — control room */
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(200,92,42,.026) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,92,42,.026) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(ellipse 85% 85% at 62% 32%, black 0%, transparent 70%);
+  -webkit-mask-image:radial-gradient(ellipse 85% 85% at 62% 32%, black 0%, transparent 70%);
+}
+
+/* Scan line */
+.hero-scan{
+  position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;
+}
+.hero-scan::after{
+  content:'';position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent 0%,rgba(200,92,42,.15) 30%,rgba(200,92,42,.3) 50%,rgba(200,92,42,.15) 70%,transparent 100%);
+  animation:scanline 9s ease-in-out infinite;
+  top:0;
+}
+@keyframes scanline{
+  0%{top:10%;opacity:0}8%{opacity:1}88%{opacity:.5}100%{top:88%;opacity:0}
+}
+
+/* Ambient glows */
+.hero-glow{position:absolute;inset:0;pointer-events:none}
+.hero-glow::before{
+  content:'';position:absolute;width:1000px;height:1000px;
+  background:radial-gradient(circle,rgba(200,92,42,.1) 0%,rgba(200,92,42,.03) 45%,transparent 65%);
+  top:32%;left:60%;transform:translate(-50%,-55%);
+  border-radius:50%;filter:blur(90px);
+  animation:orbFloat 12s ease-in-out infinite;
+}
+.hero-glow::after{
+  content:'';position:absolute;width:280px;height:280px;
+  background:radial-gradient(circle,rgba(200,92,42,.07) 0%,transparent 70%);
+  top:78%;left:6%;border-radius:50%;filter:blur(40px);
+  animation:orbFloat2 16s ease-in-out infinite;
+}
+@keyframes orbFloat{0%,100%{transform:translate(-50%,-55%)}50%{transform:translate(-50%,-63%)}}
+@keyframes orbFloat2{0%,100%{transform:translate(0,0)}50%{transform:translate(-12px,16px)}}
+
+#orbitCanvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:1;
+  opacity:.5;
+}
+
+/* Inner layout */
+.hero-inner{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3vw,48px);align-items:center;
+  max-width:1160px;width:100%;
+  padding:clamp(40px,6vw,80px) clamp(20px,4vw,48px);
+}
+
+/* ── HERO BRAND BLOCK ── */
+.hero-brand-block{
+  display:flex;flex-direction:column;gap:12px;
+  margin-bottom:clamp(14px,2vw,20px);
+  animation:fadeUp .6s .09s ease both;
+  align-items:flex-start;
+}
+
+/* ── LEFT ── */
+.hero-left{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.hero-brand-h1{
+  font-family:var(--font-h);
+  font-size:clamp(28px,3.2vw,48px);
+  font-weight:800;line-height:1.1;letter-spacing:-.04em;
+  color:var(--h1);
+  display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+  text-align:left;
+}
+.hero-brand-h1 .acc{color:var(--orange);display:inline}
+.hero-brand-h1 .dim{
+  color:rgba(250,247,244,.22);
+  display:block;
+}
+
+/* A TUM — centrado entre las dos frases, ancho completo */
+.h1-inline-brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  line-height:1;
+  margin:6px 0;
+  width:100%;
+}
+.h1-a{
+  font-family:var(--font-h);
+  font-size:clamp(52px,7vw,80px);
+  font-weight:800;
+  color:var(--h1);
+  letter-spacing:-.05em;
+  line-height:1;
+}
+.h1-tum{
+  font-family:var(--font-h);
+  font-size:clamp(26px,3.5vw,42px);
+  font-weight:700;
+  color:var(--orange);
+  letter-spacing:.08em;
+  align-self:center;
+}
+
+
+/* Inline brand logo — matches nav/svc visual */
+.brand-inline{
+  display:inline-flex;align-items:baseline;gap:1px;
+  font-family:var(--font-h);
+  vertical-align:middle;
+  line-height:1;
+}
+.brand-inline .bi-a{
+  font-size:1.15em;font-weight:800;
+  color:var(--h1);letter-spacing:-.04em;
+}
+.brand-inline .bi-tum{
+  font-size:.8em;font-weight:700;
+  color:var(--orange);letter-spacing:.06em;
+}
+
+/* ── SYSTEM TAG ── */
+.hero-coord{
+  display:inline-flex;align-items:center;gap:12px;
+  margin-bottom:clamp(8px,1.5vw,14px);
+  animation:fadeUp .4s ease both;
+}
+.coord-bracket{
+  font-family:var(--font-b);font-size:12px;font-weight:700;
+  color:rgba(200,92,42,.35);
+}
+.coord-text{
+  font-family:var(--font-b);font-size:9px;font-weight:600;
+  letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(255,255,255,.18);
+}
+.coord-sep{width:1px;height:9px;background:rgba(200,92,42,.2)}
+
+.hero-body{
+  max-width:420px;
+  margin-bottom:clamp(16px,2vw,24px);
+  animation:fadeUp .6s .2s ease both;
+  display:flex;flex-direction:column;gap:12px;
+}
+/* ── HERO BODY TYPOGRAPHY — Tracy: beneficio → empatía → prueba → cierre ── */
+
+/* NIVEL 1: Beneficio principal — claro, directo, sin ruido */
+.hb-p{
+  font-family:var(--font-b);
+  font-size:15px;font-weight:400;
+  line-height:1.7;
+  color:rgba(204,204,204,.65);
+  letter-spacing:.005em;
+}
+/* palabras clave de beneficio: blanco puro, peso fuerte */
+.hb-p strong{
+  color:rgba(250,247,244,.95);
+  font-weight:700;
+  font-family:var(--font-h);
+  letter-spacing:-.01em;
+}
+/* palabra de mayor impacto: naranja, máximo peso */
+.hb-p strong.kw{
+  color:var(--orange-light);
+  font-weight:800;
+  font-family:var(--font-h);
+  letter-spacing:-.01em;
+}
+
+/* NIVEL 2: Empatía del fundador */
+.hb-founder{
+  font-family:var(--font-b);
+  font-size:13.5px;font-weight:400;
+  font-style:italic;
+  color:rgba(250,247,244,.88);
+  letter-spacing:.005em;line-height:1.75;
+}
+.hb-founder em{
+  color:var(--orange-light);
+  font-style:italic;
+  font-weight:600;
+}
+
+/* NIVEL 3: Cita Tracy — prueba social de autoridad */
+.hb-quote{
+  font-family:var(--font-h);
+  font-size:11.5px;font-weight:600;
+  font-style:italic;
+  color:rgba(200,92,42,.55);
+  border-left:2px solid rgba(200,92,42,.22);
+  padding-left:11px;
+  line-height:1.6;
+  letter-spacing:.005em;
+}
+.hb-author{
+  display:block;
+  font-family:var(--font-b);font-size:9.5px;font-weight:600;
+  font-style:normal;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.18);
+  margin-top:5px;
+}
+
+/* NIVEL 4: Cierre / urgencia — el golpe de Tracy */
+.hb-close{
+  font-family:var(--font-h);
+  font-size:15.5px;font-weight:700;
+  line-height:1.4;
+  color:rgba(250,247,244,.9);
+  letter-spacing:-.02em;
+}
+/* la pregunta de coste: naranja intenso, máximo impacto */
+.hb-close strong.kw{
+  color:var(--orange);
+  font-weight:800;
+  font-size:16px;
+  letter-spacing:-.025em;
+}
+
+.hero-actions{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  animation:fadeUp .6s .32s ease both;
+}
+.btn-primary{
+  background:var(--orange);color:#fff;
+  font-family:var(--font-h);font-size:13px;font-weight:700;
+  padding:13px 26px;border-radius:4px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:transform .2s,box-shadow .2s,background .2s;
+  box-shadow:0 4px 24px rgba(200,92,42,.28);
+  letter-spacing:.01em;
+}
+.btn-primary:hover{transform:scale(1.03);background:var(--orange-light);box-shadow:0 6px 32px rgba(200,92,42,.42)}
+.btn-primary svg{transition:transform .2s}
+.btn-primary:hover svg{transform:translateX(3px)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RIGHT — SERVICES ── */
+.services-col{
+  display:flex;flex-direction:column;gap:8px;
+  animation:fadeUp .6s .1s ease both;
+}
+.services-header{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
+}
+.services-label{
+  font-family:var(--font-b);font-size:9.5px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+}
+.services-count{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--font-b);font-size:9.5px;font-weight:600;
+  color:var(--orange);letter-spacing:.1em;
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;background:#4CAF50;
+  animation:statusPulse 2.5s ease infinite;
+}
+@keyframes statusPulse{0%,100%{box-shadow:0 0 0 0 rgba(76,175,80,.5)}55%{box-shadow:0 0 0 7px rgba(76,175,80,0)}}
+
+/* ── SERVICE CARD — PREMIUM ── */
+.svc{
+  background:rgba(14,11,8,0.75);
+  border:1px solid rgba(200,92,42,.15);
+  border-radius:20px;
+  text-decoration:none;display:block;
+  transition:border-color .4s,box-shadow .4s,transform .3s;
+  position:relative;overflow:hidden;
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+}
+
+/* Top accent line */
+.svc::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right, transparent 0%, rgba(200,92,42,.6) 30%, rgba(217,114,63,.9) 50%, rgba(200,92,42,.6) 70%, transparent 100%);
+  opacity:.5;transition:opacity .4s;
+}
+
+/* Ambient glow on hover */
+.svc::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,92,42,.1) 0%, transparent 65%);
+  opacity:0;transition:opacity .4s;pointer-events:none;
+}
+
+.svc:hover{
+  border-color:rgba(200,92,42,.45);
+  box-shadow:0 24px 64px rgba(0,0,0,.7), 0 0 0 1px rgba(200,92,42,.12), 0 0 80px rgba(200,92,42,.06);
+  transform:translateY(-4px);
+}
+.svc:hover::before{opacity:1}
+.svc:hover::after{opacity:1}
+
+.svc-inner{padding:16px 18px 12px}
+
+/* Icon + badge row */
+.svc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+
+.svc-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  position:relative;overflow:hidden;
+}
+.svc-icon::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(135deg, rgba(200,92,42,.25) 0%, rgba(200,92,42,.08) 100%);
+  border:1px solid rgba(200,92,42,.3);
+}
+.svc-icon svg{position:relative;z-index:1;width:17px;height:17px}
+
+.svc-badge{
+  font-family:var(--font-h);font-size:9px;font-weight:800;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--orange);background:rgba(200,92,42,.08);
+  border:1px solid rgba(200,92,42,.2);
+  padding:4px 10px;border-radius:100px;
+}
+
+.svc-status{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--font-b);font-size:9px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(76,210,96,.7);
+  background:rgba(76,175,80,.07);
+  border:1px solid rgba(76,175,80,.15);
+  padding:4px 10px;border-radius:100px;
+}
+.svc-status-dot{
+  width:5px;height:5px;border-radius:50%;background:#4CD260;
+  box-shadow:0 0 6px rgba(76,210,96,.6);
+  animation:statusPulse 3s ease infinite;
+}
+
+/* Name */
+.svc-name{
+  font-family:var(--font-h);
+  font-size:18px;font-weight:800;
+  color:var(--h1);letter-spacing:-.04em;line-height:1;
+  margin-bottom:8px;
+}
+.svc-name em{color:var(--orange);font-style:normal}
+
+/* Divider */
+.svc-divider{
+  height:1px;
+  background:linear-gradient(to right, rgba(200,92,42,.25), rgba(200,92,42,.05) 60%, transparent);
+  margin-bottom:10px;
+}
+
+.svc-desc{
+  font-family:var(--font-b);font-size:12px;font-weight:400;
+  color:rgba(204,204,204,.65);line-height:1.6;margin-bottom:12px;
+}
+.svc-desc strong{color:var(--h1);font-weight:600}
+.svc-desc strong.kw{color:var(--orange);font-weight:700}
+
+.svc-pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px}
+.pill{
+  font-family:var(--font-b);font-size:9px;font-weight:600;
+  letter-spacing:.04em;color:rgba(255,255,255,.4);
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  padding:4px 10px;border-radius:100px;
+  transition:color .25s,border-color .25s,background .25s;
+}
+.svc:hover .pill{color:rgba(255,255,255,.65);border-color:rgba(200,92,42,.25);background:rgba(200,92,42,.07)}
+
+.svc-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 18px;
+  border-top:1px solid rgba(255,255,255,.04);
+  background:rgba(0,0,0,.2);
+}
+.svc-action{
+  font-family:var(--font-h);font-size:11px;font-weight:700;
+  color:var(--orange);letter-spacing:.03em;
+  display:flex;align-items:center;gap:7px;
+  transition:gap .25s,color .2s;
+}
+.svc:hover .svc-action{gap:12px;color:var(--orange-light)}
+.svc-action svg{transition:transform .2s}
+.svc:hover .svc-action svg{transform:translate(2px,-2px)}
+.svc-loc{
+  font-family:var(--font-b);font-size:9.5px;font-weight:500;
+  color:var(--muted);letter-spacing:.06em;
+}
+
+/* Próximamente card */
+.svc-soon{
+  border-style:dashed;
+  border-color:rgba(255,255,255,.07);
+  background:transparent;
+  opacity:.4;
+  cursor:default;
+}
+.svc-soon:hover{border-color:rgba(255,255,255,.09);background:transparent;transform:none;box-shadow:none;}
+.svc-soon::before,.svc-soon::after{display:none}
+.soon-inner{display:flex;align-items:center;gap:14px;padding:22px 24px}
+.soon-icon{
+  width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:center;
+}
+.soon-text{font-family:var(--font-b);font-size:13px;font-weight:500;color:rgba(255,255,255,.25)}
+.soon-text span{
+  display:block;font-size:9.5px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.16);margin-top:3px;
+}
+
+/* ── STRIP — TRANSICIÓN ── */
+.strip{
+  background:linear-gradient(to bottom, var(--dark3), var(--dark2));
+  border-top:1px solid rgba(200,92,42,.12);
+  border-bottom:1px solid rgba(200,92,42,.08);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  position:relative;z-index:2;
+  overflow:hidden;
+}
+.strip::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 100% at 50% 50%, rgba(200,92,42,.04) 0%, transparent 70%);
+}
+.strip-item{
+  padding:clamp(18px,3vw,28px) clamp(20px,3.5vw,40px);
+  border-right:1px solid rgba(255,255,255,.05);
+  display:flex;flex-direction:row;align-items:center;gap:clamp(12px,1.5vw,18px);
+  transition:background .3s;
+  position:relative;z-index:1;
+}
+.strip-item:hover{background:rgba(200,92,42,.04)}
+.strip-item:last-child{border-right:none}
+.strip-num{
+  font-family:var(--font-h);font-size:32px;font-weight:800;
+  letter-spacing:-.04em;color:var(--h1);line-height:1;
+  flex-shrink:0;
+}
+.strip-num em{color:var(--orange);font-style:normal}
+.strip-divider{width:1px;height:32px;background:rgba(200,92,42,.2);flex-shrink:0}
+.strip-lbl{
+  font-family:var(--font-b);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);
+  line-height:1.5;
+}
+
+/* ── SECTION: EMPRESAS QUE CONFÍAN ── */
+.trust-section{
+  background:var(--dark2);
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:clamp(52px,8vw,96px) clamp(20px,4vw,48px);
+  position:relative;overflow:hidden;
+}
+.trust-section::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 50% 0%, rgba(200,92,42,.05) 0%, transparent 65%);
+}
+.trust-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+
+/* Header — stacked, centered, intentional */
+.trust-head{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  margin-bottom:clamp(36px,5vw,64px);gap:0;
+}
+.trust-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-b);font-size:9.5px;font-weight:700;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--orange);
+  margin-bottom:20px;
+}
+.trust-eyebrow-line{width:28px;height:1px;background:var(--orange);opacity:.5}
+.trust-title{
+  font-family:var(--font-h);font-size:clamp(30px,3.6vw,48px);font-weight:800;
+  color:var(--h1);letter-spacing:-.04em;line-height:1.05;
+  margin-bottom:18px;
+}
+.trust-title em{color:var(--orange);font-style:normal}
+.trust-subtitle{
+  font-family:var(--font-b);font-size:14px;color:rgba(204,204,204,.5);
+  line-height:1.75;max-width:480px;text-align:center;
+}
+
+/* Client grid */
+.client-grid{
+  display:grid;grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));
+  gap:16px;
+}
+
+/* Client card */
+.client-card{
+  background:rgba(255,255,255,.022);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:border-color .3s,background .3s,transform .25s,box-shadow .3s;
+  position:relative;
+}
+.client-card::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(ellipse 130% 100% at 0% 0%, rgba(200,92,42,.1), transparent 55%);
+  opacity:0;transition:opacity .35s;pointer-events:none;
+}
+.client-card::after{
+  content:'';position:absolute;top:0;left:12%;right:12%;height:1px;
+  background:linear-gradient(to right, transparent, rgba(200,92,42,.6), transparent);
+  transform:scaleX(0);transition:transform .4s;pointer-events:none;
+}
+.client-card:hover{
+  border-color:rgba(200,92,42,.28);
+  background:rgba(200,92,42,.035);
+  transform:translateY(-4px);
+  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(200,92,42,.08);
+}
+.client-card:hover::before{opacity:1}
+.client-card:hover::after{transform:scaleX(1)}
+
+/* Card top band — brand color zone */
+.client-card-band{
+  height:4px;
+  background:linear-gradient(to right, var(--orange), rgba(200,92,42,.3));
+}
+
+/* Card body */
+.client-card-body{padding:clamp(18px,2.5vw,24px) clamp(18px,2.5vw,26px) clamp(16px,2vw,20px);flex:1;display:flex;flex-direction:column;gap:14px}
+
+/* Top row: logo area + badge */
+.client-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.client-logo-wrap{
+  display:flex;align-items:center;gap:12px;
+}
+.client-logo-icon{
+  width:44px;height:44px;border-radius:11px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  overflow:hidden;
+}
+.client-logo-icon img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.client-logo-text{
+  font-family:var(--font-h);font-size:18px;font-weight:800;
+  color:var(--h1);letter-spacing:-.03em;
+}
+.client-logo-text em{color:var(--orange);font-style:normal}
+.client-industry{
+  font-family:var(--font-b);font-size:9px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--orange);background:var(--orange-soft);
+  border:1px solid var(--orange-border);
+  padding:4px 10px;border-radius:100px;white-space:nowrap;flex-shrink:0;
+}
+
+/* Description */
+.client-tagline{
+  font-family:var(--font-h);font-size:14.5px;font-weight:700;
+  color:rgba(250,247,244,.9);letter-spacing:-.02em;line-height:1.35;
+}
+.client-desc{
+  font-family:var(--font-b);font-size:12.5px;color:rgba(204,204,204,.6);
+  line-height:1.7;
+}
+
+/* Services used pills */
+.client-services{
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+}
+.client-services-label{
+  font-family:var(--font-b);font-size:9px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(250,247,244,.88);margin-right:4px;
+}
+.client-service-pill{
+  font-family:var(--font-b);font-size:9.5px;font-weight:600;
+  color:rgba(255,255,255,.5);
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  padding:3px 9px;border-radius:100px;
+  transition:color .2s,border-color .2s,background .2s;
+}
+.client-card:hover .client-service-pill{
+  color:rgba(255,255,255,.7);
+  border-color:rgba(200,92,42,.2);
+  background:rgba(200,92,42,.07);
+}
+
+/* Card footer */
+.client-card-footer{
+  padding:14px 26px;
+  border-top:1px solid rgba(255,255,255,.05);
+  background:rgba(0,0,0,.12);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.client-visit{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--font-h);font-size:11px;font-weight:700;
+  color:var(--orange);letter-spacing:.04em;
+  text-decoration:none;
+  transition:gap .25s,color .2s;
+}
+.client-visit:hover{gap:11px;color:var(--orange-light)}
+.client-visit svg{transition:transform .2s}
+.client-card:hover .client-visit svg{transform:translate(2px,-2px)}
+.client-location{
+  font-family:var(--font-b);font-size:9.5px;font-weight:500;
+  color:rgba(255,255,255,.22);letter-spacing:.06em;
+}
+
+/* Counter row */
+.trust-counter{
+  display:flex;align-items:center;gap:clamp(16px,2.5vw,32px);
+  margin-top:clamp(28px,4vw,44px);padding-top:clamp(28px,4vw,44px);
+  border-top:1px solid rgba(255,255,255,.05);
+  flex-wrap:wrap;
+}
+.trust-counter-item{
+  display:flex;align-items:center;gap:12px;
+}
+.trust-counter-num{
+  font-family:var(--font-h);font-size:28px;font-weight:800;
+  color:var(--h1);letter-spacing:-.04em;line-height:1;
+}
+.trust-counter-num em{color:var(--orange);font-style:normal}
+.trust-counter-lbl{
+  font-family:var(--font-b);font-size:10px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.25);line-height:1.5;max-width:100px;
+}
+.trust-counter-sep{
+  width:1px;height:36px;background:rgba(255,255,255,.07);
+}
+.trust-cta-inline{
+  margin-left:auto;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-h);font-size:11.5px;font-weight:700;
+  color:rgba(255,255,255,.4);letter-spacing:.04em;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.1);
+  padding:10px 18px;border-radius:100px;
+  transition:color .25s,border-color .25s,background .25s;
+}
+.trust-cta-inline:hover{
+  color:var(--orange);
+  border-color:rgba(200,92,42,.35);
+  background:rgba(200,92,42,.06);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — MOBILE FIRST
+══════════════════════════════════════════ */
+
+/* ── TABLET (≤1024px) ── */
+@media(max-width:1024px){
+  .hero-inner{
+    grid-template-columns:1fr 1fr;
+    gap:32px;
+    padding:48px 32px;
+  }
+  h1{font-size:clamp(44px,5.5vw,72px)}
+  .trust-section{padding:72px 32px}
+  .trust-head{margin-bottom:48px}
+}
+
+/* ── SMALL TABLET / LARGE MOBILE (≤768px) ── */
+@media(max-width:768px){
+
+  /* Nav */
+  .nav-wrap{padding:12px 16px 8px}
+
+  /* Hero: stack vertically */
+  #hero{padding-bottom:0}
+  .hero-inner{
+    grid-template-columns:1fr;
+    gap:28px;
+    padding:36px 20px 40px;
+    align-items:flex-start;
+  }
+
+  /* Left col */
+  .hero-body{font-size:14px;margin-bottom:28px;max-width:100%}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:12px}
+  .btn-primary{width:100%;justify-content:center;padding:15px 24px;font-size:14px}
+
+  /* Right: service cards */
+  .services-col{gap:12px}
+  .services-header{margin-bottom:8px}
+  .svc-inner{padding:22px 20px 16px}
+  .svc-name{font-size:24px}
+  .svc-desc{font-size:13px}
+  .svc-footer{padding:14px 20px}
+
+  /* Strip */
+  .strip{grid-template-columns:1fr}
+  .strip-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.05);padding:20px 24px}
+  .strip-item:last-child{border-bottom:none}
+  .strip-num{font-size:28px}
+
+  /* Trust section */
+  .trust-section{padding:52px 20px}
+  .trust-head{margin-bottom:40px}
+  .trust-title{font-size:clamp(26px,8vw,36px)}
+  .trust-subtitle{font-size:13px}
+  .client-grid{grid-template-columns:1fr}
+  .trust-counter{gap:16px}
+  .trust-cta-inline{margin-left:0;width:100%;justify-content:center}
+}
+
+/* ── MEDIUM PHONES (≤600px) ── */
+@media(max-width:600px){
+  .hero-inner{gap:28px}
+  .trust-section{padding:44px 18px}
+  .client-card-body{padding:20px 20px 16px}
+  .client-card-footer{padding:12px 20px}
+  .strip-item{padding:18px 20px}
+}
+
+/* ── MOBILE (≤480px) ── */
+@media(max-width:480px){
+
+  /* Ticker */
+  .ticker{height:30px}
+  .tick-k,.tick-v{font-size:8px}
+
+  /* Nav */
+  .nav-wrap{top:30px;padding:10px 14px 8px}
+  nav{padding:7px 7px 7px 16px;gap:12px}
+  .nav-logo .logo-a{font-size:18px}
+  .nav-logo .logo-tum{font-size:12px}
+  .nav-cta{font-size:10px;padding:9px 16px;gap:6px}
+  .nav-cta svg{width:11px;height:11px}
+
+  /* Hero */
+  .hero-inner{padding:28px 16px 36px;gap:24px}
+  .hero-coord{gap:8px;margin-bottom:14px}
+  .coord-text{font-size:8px;letter-spacing:.18em}
+  .hero-body{font-size:13.5px;line-height:1.75;margin-bottom:24px}
+  .btn-primary{font-size:13px;padding:14px 20px}
+  .h1-a{font-size:clamp(40px,11vw,60px)}
+  .h1-tum{font-size:clamp(18px,5vw,28px)}
+  .hero-brand-h1{font-size:clamp(22px,6vw,32px)}
+
+  /* Service cards */
+  .services-col{gap:10px}
+  .svc-inner{padding:20px 18px 14px}
+  .svc-icon{width:42px;height:42px;border-radius:12px}
+  .svc-icon svg{width:18px;height:18px}
+  .svc-name{font-size:22px;margin-bottom:10px}
+  .svc-desc{font-size:12.5px;line-height:1.7;margin-bottom:16px}
+  .svc-pills{gap:5px;margin-bottom:4px}
+  .pill{font-size:9px;padding:4px 10px}
+  .svc-footer{padding:12px 18px}
+  .svc-action{font-size:11px}
+  .svc-loc{font-size:9px}
+  .soon-inner{padding:18px}
+
+  /* Strip */
+  .strip-item{padding:18px 20px}
+  .strip-num{font-size:26px}
+  .strip-lbl{font-size:9px}
+
+  /* Trust section */
+  .trust-section{padding:40px 16px}
+  .trust-title{font-size:clamp(24px,8vw,32px)}
+  .trust-subtitle{font-size:12.5px}
+}
+
+/* ── VERY SMALL (≤360px) ── */
+@media(max-width:360px){
+  .hero-brand-h1{font-size:20px}
+  .h1-a{font-size:36px}
+  .h1-tum{font-size:16px}
+  .svc-name{font-size:20px}
+  .hero-actions{gap:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="tick"><span class="tick-k">No sabés por dónde empezar con la tech</span><span class="tick-dot"></span><span class="tick-v">A TUM es exactamente eso: el punto de partida</span></div>
+    <div class="tick"><span class="tick-k">Un ecosistema. No mil proveedores.</span><span class="tick-dot"></span><span class="tick-v">Todo lo que tu negocio necesita · En una sola plataforma</span></div>
+    <div class="tick"><span class="tick-k">Hoy 2 servicios activos</span><span class="tick-dot"></span><span class="tick-v">El portafolio crece con vos · Siempre integrado</span></div>
+    <div class="tick"><span class="tick-k">Sin contratos que te aten</span><span class="tick-dot"></span><span class="tick-v">Empezás cuando querés · Crecés a tu ritmo</span></div>
+    <div class="tick"><span class="tick-k">Construido en Santa Cruz · Bolivia</span><span class="tick-dot"></span><span class="tick-v">Para emprendedores que quieren ir en serio</span></div>
+    <div class="tick"><span class="tick-k">A TUM es el centro</span><span class="tick-dot"></span><span class="tick-v">Tu negocio crece desde acá</span></div>
+    <div class="tick"><span class="tick-k">No sabés por dónde empezar con la tech</span><span class="tick-dot"></span><span class="tick-v">A TUM es exactamente eso: el punto de partida</span></div>
+    <div class="tick"><span class="tick-k">Un ecosistema. No mil proveedores.</span><span class="tick-dot"></span><span class="tick-v">Todo lo que tu negocio necesita · En una sola plataforma</span></div>
+    <div class="tick"><span class="tick-k">Hoy 2 servicios activos</span><span class="tick-dot"></span><span class="tick-v">El portafolio crece con vos · Siempre integrado</span></div>
+    <div class="tick"><span class="tick-k">Sin contratos que te aten</span><span class="tick-dot"></span><span class="tick-v">Empezás cuando querés · Crecés a tu ritmo</span></div>
+    <div class="tick"><span class="tick-k">Construido en Santa Cruz · Bolivia</span><span class="tick-dot"></span><span class="tick-v">Para emprendedores que quieren ir en serio</span></div>
+    <div class="tick"><span class="tick-k">A TUM es el centro</span><span class="tick-dot"></span><span class="tick-v">Tu negocio crece desde acá</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <nav>
+    <a class="nav-logo" href="#"><span class="logo-a">A</span>&nbsp;<span class="logo-tum">TUM</span></a>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#">Nosotros</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+    <a class="nav-cta" href="https://wa.me/" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Hablar ahora
+    </a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-scan"></div>
+  <canvas id="orbitCanvas"></canvas>
+
+  <div class="hero-inner">
+
+    <!-- LEFT -->
+    <div class="hero-left">
+
+      <div class="hero-coord">
+        <span class="coord-bracket">[</span>
+        <span class="coord-text">SCZ · BOL</span>
+        <span class="coord-sep"></span>
+        <span class="coord-text">Plataforma tecnológica</span>
+        <span class="coord-bracket">]</span>
+      </div>
+
+      <div class="hero-brand-block">
+        <h1 class="hero-brand-h1">
+          Lo que tu negocio <span class="acc">necesita.</span>
+          <span class="h1-inline-brand"><span class="h1-a">A</span><span class="h1-tum">TUM</span></span>
+          <span class="dim">Todo en un solo lugar.</span>
+        </h1>
+      </div>
+
+      <div class="hero-body">
+        <p class="hb-p">Tecnología que <strong>funciona desde el primer día</strong>, crece con vos — y <strong class="kw">cualquiera en tu equipo la usa desde el minuto uno.</strong></p>
+        <p class="hb-founder">La construí porque <em>yo también la busqué</em> — y no existía nada así para emprendedores.</p>
+        <p class="hb-quote">"Las personas exitosas toman decisiones rápido y las sostienen."<span class="hb-author"> — Brian Tracy</span></p>
+        <p class="hb-close"><strong class="kw">¿Cuánto te cuesta cada día que seguís esperando?</strong></p>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://wa.me/" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Contactanos ahora
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT — SERVICES -->
+    <div class="services-col" id="servicios">
+      <div class="services-header">
+        <span class="services-label">Servicios activos</span>
+        <span class="services-count">
+          <span class="live-dot"></span>
+          2 activos · más por venir
+        </span>
+      </div>
+
+      <!-- TI -->
+      <a class="svc" href="https://apm-tum.github.io/Ti/" target="_blank">
+        <div class="svc-inner">
+          <div class="svc-top">
+            <div class="svc-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(200,92,42,.9)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><circle cx="12" cy="10" r="2"/><path d="M9 10H6M18 10h-3"/></svg>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="svc-badge">Ti</span>
+              <span class="svc-status"><span class="svc-status-dot"></span>Activo</span>
+            </div>
+          </div>
+          <div class="svc-name">A&nbsp;<em>TUM</em> Ti</div>
+          <div class="svc-divider"></div>
+          <div class="svc-desc">Tu equipo falla y vos perdés plata. <strong class="kw">Nosotros vamos, lo resolvemos, y te decimos el precio antes de tocar nada.</strong></div>
+          <div class="svc-pills">
+            <span class="pill">Hardware</span>
+            <span class="pill">Software</span>
+            <span class="pill">Drivers</span>
+            <span class="pill">S.O.S · Mismo día</span>
+          </div>
+        </div>
+        <div class="svc-footer">
+          <span class="svc-action">
+            Quiero mi equipo resuelto hoy
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+          <span class="svc-loc">Santa Cruz · Bolivia</span>
+        </div>
+      </a>
+
+      <!-- SG -->
+      <a class="svc" href="https://apm-tum.github.io/SG/" target="_blank">
+        <div class="svc-inner">
+          <div class="svc-top">
+            <div class="svc-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(200,92,42,.9)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="svc-badge">SG</span>
+              <span class="svc-status"><span class="svc-status-dot"></span>Activo</span>
+            </div>
+          </div>
+          <div class="svc-name">A&nbsp;<em>TUM</em> SG</div>
+          <div class="svc-divider"></div>
+          <div class="svc-desc">Tu negocio vive en tu cabeza. <strong class="kw">Te construimos el sistema que lo saca de ahí — sin manuales, sin complicaciones.</strong></div>
+          <div class="svc-pills">
+            <span class="pill">La Agenda</span>
+            <span class="pill">La Libreta</span>
+            <span class="pill">La Caja</span>
+            <span class="pill">Diagnóstico gratis</span>
+          </div>
+        </div>
+        <div class="svc-footer">
+          <span class="svc-action">
+            Empezar el diagnóstico gratis
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+          <span class="svc-loc">Santa Cruz · Bolivia</span>
+        </div>
+      </a>
+
+      <!-- PRÓXIMAMENTE -->
+      <div class="svc svc-soon">
+        <div class="soon-inner">
+          <div class="soon-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div class="soon-text">
+            Algo más viene en camino
+            <span>Muy pronto · A TUM</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-item">
+    <span class="strip-num">2<em>+</em></span>
+    <span class="strip-divider"></span>
+    <span class="strip-lbl">Servicios activos<br>funcionando ahora</span>
+  </div>
+  <div class="strip-item">
+    <span class="strip-num"><em>0</em>h</span>
+    <span class="strip-divider"></span>
+    <span class="strip-lbl">De capacitación<br>lo operás desde que lo recibís</span>
+  </div>
+  <div class="strip-item">
+    <span class="strip-num"><em>$0</em></span>
+    <span class="strip-divider"></span>
+    <span class="strip-lbl">Diagnóstico<br>sabés el precio antes de pagar</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     EMPRESAS QUE CONFÍAN EN A TUM
+══════════════════════════════════════════ -->
+<section class="trust-section">
+  <div class="trust-inner">
+
+    <!-- Header -->
+    <div class="trust-head">
+      <div class="trust-eyebrow">
+        <span class="trust-eyebrow-line"></span>
+        Ellos ya tomaron la decisión
+        <span class="trust-eyebrow-line"></span>
+      </div>
+      <h2 class="trust-title">
+        Negocios reales.<br>
+        Resultados <em>comprobados.</em>
+      </h2>
+      <p class="trust-subtitle">
+        Los ganadores no esperan el momento perfecto.<br>Estos negocios decidieron actuar — y los resultados hablan solos.
+      </p>
+    </div>
+
+    <!-- Client grid -->
+    <div class="client-grid">
+
+      <!-- TUM OFICINAS -->
+      <div class="client-card">
+        <div class="client-card-band"></div>
+        <div class="client-card-body">
+          <div class="client-card-top">
+            <div class="client-logo-wrap">
+              <div class="client-logo-icon">
+                <img src="https://i.ibb.co/MycykDCW/TUM-CEO-verde-fluo-S-F-1014x1024.png" alt="TUM Oficinas" onerror="this.style.display='none';this.parentElement.innerHTML='<svg width=22 height=22 viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'rgba(200,92,42,.5)\' stroke-width=\'1.8\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'2\' y=\'3\' width=\'20\' height=\'14\' rx=\'2\'/><line x1=\'8\' y1=\'21\' x2=\'16\' y2=\'21\'/><line x1=\'12\' y1=\'17\' x2=\'12\' y2=\'21\'/></svg>'">
+              </div>
+              <span class="client-logo-text">TUM <em>Oficinas</em></span>
+            </div>
+            <span class="client-industry">Limpieza profesional</span>
+          </div>
+
+          <p class="client-tagline">
+            Cada visita cobrada. Cada cliente registrado. Cero papel.
+          </p>
+
+          <p class="client-desc">
+            Gestiona tu operación completa desde tu propio sistema creado por <span class="brand-inline"><span class="bi-a">A</span><span class="bi-tum">&nbsp;TUM&nbsp;SG</span></span> — todo en un solo lugar. Decidieron organizarse, y el negocio respondió.
+          </p>
+
+          <div class="client-services">
+            <span class="client-services-label">Usa</span>
+            <span class="client-service-pill"><span class="brand-inline"><span class="bi-a">A</span><span class="bi-tum">&nbsp;TUM&nbsp;SG</span></span></span>
+            <span class="client-service-pill"><span class="brand-inline"><span class="bi-a">A</span><span class="bi-tum">&nbsp;TUM&nbsp;</span><span style="color:var(--h1);font-family:var(--font-h);font-size:.8em;font-weight:700;letter-spacing:.04em">Ti</span></span></span>
+          </div>
+
+          <div style="margin-top:4px;padding:10px 14px;background:rgba(200,92,42,.06);border:1px solid rgba(200,92,42,.15);border-radius:10px;">
+            <p style="font-family:var(--font-h);font-size:12.5px;font-weight:700;color:rgba(250,247,244,.85);letter-spacing:-.01em;line-height:1.4;margin:0;">
+              "Tomé la decisión un lunes. El viernes ya no necesitaba seguir a nadie para saber qué pasó."
+            </p>
+          </div>
+        </div>
+        <div class="client-card-footer">
+          <a class="client-visit" href="https://tum-oficinas.github.io/scz/" target="_blank">
+            Ver TUM Oficinas
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </a>
+          <span class="client-location">Santa Cruz · Bolivia</span>
+        </div>
+      </div>
+
+      <!-- SLOT PRÓXIMA EMPRESA -->
+      <div class="client-card" style="border-style:dashed;border-color:rgba(200,92,42,.18);background:rgba(200,92,42,.02);cursor:default;transition:border-color .3s,background .3s;">
+        <div class="client-card-body" style="align-items:center;justify-content:center;min-height:260px;gap:16px;text-align:center;">
+          <div style="width:44px;height:44px;border-radius:11px;background:rgba(200,92,42,.08);border:1px dashed rgba(200,92,42,.25);display:flex;align-items:center;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(200,92,42,.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-family:var(--font-h);font-size:15px;font-weight:800;color:rgba(250,247,244,.55);letter-spacing:-.02em;">Tu negocio, el próximo caso real.</span>
+            <span style="font-family:var(--font-b);font-size:11.5px;color:rgba(255,255,255,.38);line-height:1.6;max-width:220px;">Usá A TUM en tu operación y mostrá resultados concretos junto a quienes ya lo están haciendo.</span>
+          </div>
+          <a href="https://wa.me/" target="_blank" style="display:inline-flex;align-items:center;gap:7px;font-family:var(--font-h);font-size:11px;font-weight:700;color:rgba(200,92,42,.6);border:1px solid rgba(200,92,42,.2);padding:9px 16px;border-radius:100px;text-decoration:none;letter-spacing:.04em;transition:color .2s,border-color .2s,background .2s;" onmouseover="this.style.color='var(--orange)';this.style.borderColor='rgba(200,92,42,.4)';this.style.background='rgba(200,92,42,.06)'" onmouseout="this.style.color='rgba(200,92,42,.6)';this.style.borderColor='rgba(200,92,42,.2)';this.style.background='transparent'">
+            Quiero aparecer aquí
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /client-grid -->
+
+    <!-- Counter -->
+    <div class="trust-counter">
+      <div class="trust-counter-item">
+        <span class="trust-counter-num">1<em>+</em></span>
+        <span class="trust-counter-lbl">Empresa usando A TUM ahora</span>
+      </div>
+      <div class="trust-counter-sep"></div>
+      <div class="trust-counter-item">
+        <span class="trust-counter-num">2<em>+</em></span>
+        <span class="trust-counter-lbl">Servicios en uso real</span>
+      </div>
+      <div class="trust-counter-sep"></div>
+      <div class="trust-counter-item">
+        <span class="trust-counter-num"><em>0</em></span>
+        <span class="trust-counter-lbl">Contratos forzados</span>
+      </div>
+      <a class="trust-cta-inline" href="https://wa.me/" target="_blank">
+        ¿Tu negocio quiere estar aquí?
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+/* ── ORBIT CANVAS ── */
+(function(){
+  const canvas = document.getElementById('orbitCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, cx, cy, particles=[], mouse={x:0,y:0};
+
+  function resize(){
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    /* On narrow screens center the orbit; on wide keep it right-leaning */
+    const isMobile = W < 768;
+    cx = isMobile ? W * .5 : W * .62;
+    cy = isMobile ? H * .38 : H * .42;
+  }
+
+  /* Create orbital nodes */
+  function initParticles(){
+    particles = [];
+    const rings = [
+      {r:120, count:6, speed:.0006, size:2.2, opacity:.55},
+      {r:195, count:10, speed:.00038, size:1.6, opacity:.35},
+      {r:275, count:14, speed:.00022, size:1.2, opacity:.22},
+    ];
+    rings.forEach(ring => {
+      for(let i=0;i<ring.count;i++){
+        const angle = (Math.PI*2/ring.count)*i + Math.random()*.3;
+        particles.push({
+          ring, angle,
+          speed: ring.speed * (Math.random()*.4+.8) * (Math.random()>.5?1:-1),
+          size: ring.size * (Math.random()*.4+.8),
+          opacity: ring.opacity * (Math.random()*.5+.75),
+          glow: Math.random() > .75
+        });
+      }
+    });
+  }
+
+  function drawRing(radius, opacity){
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, radius, radius*.28, -.12, 0, Math.PI*2);
+    ctx.strokeStyle = `rgba(200,92,42,${opacity})`;
+    ctx.lineWidth = .8;
+    ctx.stroke();
+  }
+
+  let lastT=0;
+  function draw(t){
+    const dt = Math.min(t - lastT, 32); lastT = t;
+
+    ctx.clearRect(0,0,W,H);
+
+    /* subtle mouse parallax on center */
+    const dx = (mouse.x - W/2) * .012;
+    const dy = (mouse.y - H/2) * .008;
+    const ocx = cx + dx;
+    const ocy = cy + dy;
+
+    /* rings */
+    ctx.save();
+    ctx.translate(ocx - cx, ocy - cy);
+    [120,195,275].forEach((r,i)=>{
+      drawRing(r, [.09,.06,.04][i]);
+    });
+    ctx.restore();
+
+    /* core glow pulse */
+    const pulse = .5 + Math.sin(t*.0015)*.5;
+    const coreGrad = ctx.createRadialGradient(ocx,ocy,0,ocx,ocy,50);
+    coreGrad.addColorStop(0,`rgba(200,92,42,${.22+pulse*.08})`);
+    coreGrad.addColorStop(.5,`rgba(200,92,42,${.06+pulse*.03})`);
+    coreGrad.addColorStop(1,'rgba(200,92,42,0)');
+    ctx.beginPath();
+    ctx.arc(ocx,ocy,50,0,Math.PI*2);
+    ctx.fillStyle=coreGrad;
+    ctx.fill();
+
+    /* center dot */
+    ctx.beginPath();
+    ctx.arc(ocx,ocy,3,0,Math.PI*2);
+    ctx.fillStyle=`rgba(200,92,42,${.7+pulse*.3})`;
+    ctx.fill();
+
+    /* particles */
+    particles.forEach(p => {
+      p.angle += p.speed * dt;
+      const x = ocx + Math.cos(p.angle) * p.ring.r;
+      const y = ocy + Math.sin(p.angle) * p.ring.r * .28;
+
+      if(p.glow){
+        const g = ctx.createRadialGradient(x,y,0,x,y,p.size*4);
+        g.addColorStop(0,`rgba(200,92,42,${p.opacity})`);
+        g.addColorStop(1,'rgba(200,92,42,0)');
+        ctx.beginPath();
+        ctx.arc(x,y,p.size*4,0,Math.PI*2);
+        ctx.fillStyle=g;
+        ctx.fill();
+      }
+
+      ctx.beginPath();
+      ctx.arc(x,y,p.size,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,92,42,${p.opacity})`;
+      ctx.fill();
+    });
+
+    /* connecting lines between close particles on inner ring */
+    const inner = particles.filter(p=>p.ring.r===120);
+    inner.forEach((a,i)=>{
+      inner.forEach((b,j)=>{
+        if(j<=i) return;
+        const ax = ocx+Math.cos(a.angle)*120;
+        const ay = ocy+Math.sin(a.angle)*120*.28;
+        const bx = ocx+Math.cos(b.angle)*120;
+        const by = ocy+Math.sin(b.angle)*120*.28;
+        const dist = Math.hypot(ax-bx,ay-by);
+        if(dist<90){
+          ctx.beginPath();
+          ctx.moveTo(ax,ay);ctx.lineTo(bx,by);
+          ctx.strokeStyle=`rgba(200,92,42,${.12*(1-dist/90)})`;
+          ctx.lineWidth=.8;
+          ctx.stroke();
+        }
+      });
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('mousemove', e=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  window.addEventListener('resize', ()=>{resize();initParticles()});
+
+  resize();
+  initParticles();
+  requestAnimationFrame(draw);
+})();
+
+/* ── CARD TILT ── */
+document.querySelectorAll('.svc:not(.svc-soon)').forEach(card=>{
+  card.addEventListener('mouseleave', ()=>{
+    card.style.transform = '';
+  });
+});
+</script>
+</body>
+</html>
